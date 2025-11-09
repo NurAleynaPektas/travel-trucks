@@ -20,6 +20,9 @@ export default function CamperDetails() {
   const isLoading = useSelector(selectCampersLoading);
   const [activeTab, setActiveTab] = useState("features");
 
+  // 🔹 Modal için seçilen resim index'i
+  const [lightboxIndex, setLightboxIndex] = useState(null);
+
   useEffect(() => {
     dispatch(fetchCamperById(id));
 
@@ -47,7 +50,7 @@ export default function CamperDetails() {
     adults,
     engine,
     transmission,
-    details = {}, 
+    details = {},
     form,
     length,
     width,
@@ -85,6 +88,7 @@ export default function CamperDetails() {
 
   const formattedPrice =
     typeof price === "number" ? price.toFixed(2) : Number(price).toFixed(2);
+
   const featureTags = [
     adults && `${adults} adults`,
     transmission,
@@ -108,6 +112,15 @@ export default function CamperDetails() {
     { label: "Tank", value: tank },
     { label: "Consumption", value: consumption },
   ].filter((row) => row.value);
+
+  // 🔹 Modal aç/kapa fonksiyonları
+  const openLightbox = (index) => {
+    setLightboxIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setLightboxIndex(null);
+  };
 
   return (
     <section className={s.wrap}>
@@ -140,6 +153,7 @@ export default function CamperDetails() {
             src={src}
             alt={`${name} ${index + 1}`}
             className={s.photo}
+            onClick={() => openLightbox(index)}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "https://picsum.photos/600/360?campers";
@@ -206,6 +220,34 @@ export default function CamperDetails() {
           <BookingForm camperName={name} />
         </aside>
       </div>
+
+      {/* 🔹 Lightbox / Modal */}
+      {lightboxIndex !== null && galleryImages[lightboxIndex] && (
+        <div className={s.modalBackdrop} onClick={closeLightbox}>
+          <div
+            className={s.modal}
+            onClick={(e) => e.stopPropagation()} // içe tıklayınca kapanmasın
+          >
+            <button
+              type="button"
+              className={s.modalClose}
+              onClick={closeLightbox}
+              aria-label="Close image"
+            >
+              ✕
+            </button>
+            <img
+              src={galleryImages[lightboxIndex]}
+              alt={`${name} ${lightboxIndex + 1}`}
+              className={s.modalImage}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://picsum.photos/1000/600?campers";
+              }}
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }

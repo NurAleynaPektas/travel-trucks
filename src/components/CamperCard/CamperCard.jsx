@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite, selectFavorites } from "../../store/favoritesSlice";
@@ -20,9 +21,12 @@ export default function CamperCard({ camper }) {
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
   const isFavorite = favorites.includes(String(id));
+
   const mainImage =
     (Array.isArray(gallery) && (gallery[0]?.original || gallery[0]?.thumb)) ||
     "https://picsum.photos/400/250?campers";
+
+  const [isImageOpen, setIsImageOpen] = useState(false);
 
   const formattedPrice =
     typeof price === "number" ? price.toFixed(2) : Number(price).toFixed(2);
@@ -31,75 +35,113 @@ export default function CamperCard({ camper }) {
     dispatch(toggleFavorite(id));
   };
 
+  const handleOpenImage = () => {
+    setIsImageOpen(true);
+  };
+
+  const handleCloseImage = () => {
+    setIsImageOpen(false);
+  };
+
   return (
-    <article className={s.card}>
-      <div className={s.imageWrap}>
-        <img
-          src={mainImage}
-          alt={name}
-          className={s.image}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "https://picsum.photos/400/250?campers";
-          }}
-        />
-      </div>
+    <>
+      <article className={s.card}>
+        <div className={s.imageWrap} onClick={handleOpenImage}>
+          <img
+            src={mainImage}
+            alt={name}
+            className={s.image}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://picsum.photos/400/250?campers";
+            }}
+          />
+        </div>
 
-      <div className={s.content}>
-        <div className={s.headerRow}>
-          <h2 className={s.name}>{name}</h2>
+        <div className={s.content}>
+          <div className={s.headerRow}>
+            <h2 className={s.name}>{name}</h2>
 
-          <div className={s.priceBlock}>
-            <span className={s.price}>€ {formattedPrice}</span>
+            <div className={s.priceBlock}>
+              <span className={s.price}>€ {formattedPrice}</span>
+              <button
+                type="button"
+                className={s.favBtn}
+                onClick={handleFavoriteClick}
+                aria-pressed={isFavorite}
+              >
+                <span className={isFavorite ? s.heartFilled : s.heartOutline}>
+                  ♥
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className={s.metaRow}>
+            <div className={s.rating}>
+              <span className={s.star}>★</span>
+              <span>{rating}</span>
+            </div>
+            <div className={s.location}>
+              <span className={s.locationIcon}>📍</span>
+              <span>{location}</span>
+            </div>
+          </div>
+
+          {description && (
+            <p className={s.description}>
+              {description.length > 90
+                ? description.slice(0, 90) + "..."
+                : description}
+            </p>
+          )}
+
+          <ul className={s.tags}>
+            {adults && <li className={s.tag}>{adults} adults</li>}
+            {transmission && <li className={s.tag}>{transmission}</li>}
+            {engine && <li className={s.tag}>{engine}</li>}
+          </ul>
+
+          <div className={s.footer}>
+            <Link
+              to={`/catalog/${id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={s.moreBtn}
+            >
+              Show more
+            </Link>
+          </div>
+        </div>
+      </article>
+
+      {/* Resim modalı */}
+      {isImageOpen && (
+        <div className={s.modalBackdrop} onClick={handleCloseImage}>
+          <div
+            className={s.modal}
+            onClick={(e) => e.stopPropagation()} 
+          >
             <button
               type="button"
-              className={s.favBtn}
-              onClick={handleFavoriteClick}
-              aria-pressed={isFavorite}
+              className={s.modalClose}
+              onClick={handleCloseImage}
+              aria-label="Close image"
             >
-              <span className={isFavorite ? s.heartFilled : s.heartOutline}>
-                ♥
-              </span>
+              ✕
             </button>
+            <img
+              src={mainImage}
+              alt={name}
+              className={s.modalImage}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = "https://picsum.photos/1000/600?campers";
+              }}
+            />
           </div>
         </div>
-
-        <div className={s.metaRow}>
-          <div className={s.rating}>
-            <span className={s.star}>★</span>
-            <span>{rating}</span>
-          </div>
-          <div className={s.location}>
-            <span className={s.locationIcon}>📍</span>
-            <span>{location}</span>
-          </div>
-        </div>
-
-        {description && (
-          <p className={s.description}>
-            {description.length > 90
-              ? description.slice(0, 90) + "..."
-              : description}
-          </p>
-        )}
-
-        <ul className={s.tags}>
-          {adults && <li className={s.tag}>{adults} adults</li>}
-          {transmission && <li className={s.tag}>{transmission}</li>}
-          {engine && <li className={s.tag}>{engine}</li>}
-        </ul>
-
-        <div className={s.footer}>
-          <Link
-            to={`/catalog/${id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={s.moreBtn}
-          >
-            Show more
-          </Link>
-        </div>
-      </div>
-    </article>
+      )}
+    </>
   );
 }
