@@ -32,30 +32,27 @@ export default function Catalog() {
     <section className={s.catalog}>
       {isLoading && <Loader />}
 
-      <h1 className={s.title}>Our campers</h1>
+      <div className={s.catalogInner}>
+        <div className={s.catalogLayout}>
+          <aside className={s.catalogFilters}>
+            <FiltersPanel />
+          </aside>
+          <div className={s.catalogList}>
+            {Array.isArray(campers) &&
+              campers.map((camper) => (
+                <CamperCard key={camper.id} camper={camper} />
+              ))}
 
-      <div className={s.layout}>
-
-        <div className={s.list}>
-          {Array.isArray(campers) &&
-            campers.map((camper) => (
-              <CamperCard key={camper.id} camper={camper} />
-            ))}
-
-          {hasMore &&
-            !isLoading &&
-            Array.isArray(campers) &&
-            campers.length > 0 && (
-              <button className={s.loadMore} onClick={handleLoadMore}>
-                Load more
-              </button>
-            )}
+            {hasMore &&
+              !isLoading &&
+              Array.isArray(campers) &&
+              campers.length > 0 && (
+                <button className={s.catalogLoadMore} onClick={handleLoadMore}>
+                  Load more
+                </button>
+              )}
+          </div>
         </div>
-
-     
-        <aside className={s.filters}>
-          <FiltersPanel />
-        </aside>
       </div>
     </section>
   );
