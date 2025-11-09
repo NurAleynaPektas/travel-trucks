@@ -18,7 +18,7 @@ export default function CamperDetails() {
 
   const camper = useSelector(selectCurrentCamper);
   const isLoading = useSelector(selectCampersLoading);
-  const [activeTab, setActiveTab] = useState("features"); 
+  const [activeTab, setActiveTab] = useState("features");
 
   useEffect(() => {
     dispatch(fetchCamperById(id));
@@ -47,40 +47,57 @@ export default function CamperDetails() {
     adults,
     engine,
     transmission,
-    details = {},
+    details = {}, 
     form,
     length,
     width,
     height,
     tank,
     consumption,
+    AC,
+    kitchen,
+    bathroom,
+    TV,
+    radio,
+    refrigerator,
+    microwave,
+    gas,
+    water,
   } = camper;
 
   const mainImage =
-    (Array.isArray(gallery) && gallery[0]) ||
-    camper.image ||
-    camper.img ||
+    (Array.isArray(gallery) &&
+      gallery.length > 0 &&
+      (gallery[0]?.original || gallery[0]?.thumb)) ||
     "https://picsum.photos/600/360?campers";
 
-  const galleryImages =
-    Array.isArray(gallery) && gallery.length ? gallery : [mainImage];
+  let galleryImages = [];
+
+  if (Array.isArray(gallery) && gallery.length > 0) {
+    galleryImages = gallery
+      .map((item) => item?.original || item?.thumb)
+      .filter(Boolean);
+  }
+
+  if (!galleryImages.length) {
+    galleryImages = [mainImage];
+  }
 
   const formattedPrice =
     typeof price === "number" ? price.toFixed(2) : Number(price).toFixed(2);
-
   const featureTags = [
     adults && `${adults} adults`,
     transmission,
     engine,
-    details.AC && "AC",
-    details.kitchen && "Kitchen",
-    details.bathroom && "Bathroom",
-    details.TV && "TV",
-    details.radio && "Radio",
-    details.refrigerator && "Refrigerator",
-    details.microwave && "Microwave",
-    details.gas && "Gas",
-    details.water && "Water",
+    (details.AC ?? AC) && "AC",
+    (details.kitchen ?? kitchen) && "Kitchen",
+    (details.bathroom ?? bathroom) && "Bathroom",
+    (details.TV ?? TV) && "TV",
+    (details.radio ?? radio) && "Radio",
+    (details.refrigerator ?? refrigerator) && "Refrigerator",
+    (details.microwave ?? microwave) && "Microwave",
+    (details.gas ?? gas) && "Gas",
+    (details.water ?? water) && "Water",
   ].filter(Boolean);
 
   const vehicleDetails = [
@@ -115,7 +132,7 @@ export default function CamperDetails() {
 
       <div className={s.price}>€ {formattedPrice}</div>
 
-    
+      {/* GALLERY */}
       <div className={s.gallery}>
         {galleryImages.map((src, index) => (
           <img
@@ -132,7 +149,6 @@ export default function CamperDetails() {
       </div>
 
       <div className={s.layout}>
-
         <div className={s.main}>
           <p className={s.description}>{description}</p>
 

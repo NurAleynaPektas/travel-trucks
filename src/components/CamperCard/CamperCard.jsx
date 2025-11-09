@@ -20,8 +20,9 @@ export default function CamperCard({ camper }) {
   const dispatch = useDispatch();
   const favorites = useSelector(selectFavorites);
   const isFavorite = favorites.includes(String(id));
-
-  const mainImage = gallery?.[0] || "https://picsum.photos/400/250?campers";
+  const mainImage =
+    (Array.isArray(gallery) && (gallery[0]?.original || gallery[0]?.thumb)) ||
+    "https://picsum.photos/400/250?campers";
 
   const formattedPrice =
     typeof price === "number" ? price.toFixed(2) : Number(price).toFixed(2);
