@@ -1,0 +1,52 @@
+.catalog {
+  padding-top: 16px;
+}
+
+.title {
+  margin: 0 0 24px;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.loadMore {
+  margin: 24px auto 0;
+  display: block;
+  padding: 12px 32px;
+  border-radius: 999px;
+  background-color: #f2f4f7;
+  color: #101828;
+  font-weight: 600;
+  border: 1px solid #d0d5dd;
+}
+
+.filters {
+  padding: 16px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  border: 1px solid #eaecf0;
+}
+
+.filtersTitle {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.filtersHint {
+  margin: 0;
+  font-size: 14px;
+  color: #667085;
+}

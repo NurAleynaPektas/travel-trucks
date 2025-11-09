@@ -1,0 +1,90 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #101828;
+}
+
+.input {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d0d5dd;
+  font-size: 14px;
+}
+
+
+.types {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.typeBtn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d0d5dd;
+  background-color: #f9fafb;
+  text-align: left;
+  font-size: 14px;
+}
+
+.typeBtnActive {
+  border-color: #e44848;
+  background-color: #fef2f2;
+}
+
+
+.equipmentGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.equipBtn {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid #d0d5dd;
+  background-color: #f9fafb;
+  font-size: 12px;
+}
+
+.equipBtnActive {
+  border-color: #e44848;
+  background-color: #fef2f2;
+}
+
+
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.searchBtn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background-color: #e44848;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.resetBtn {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background-color: #f2f4f7;
+  color: #101828;
+  font-size: 14px;
+}

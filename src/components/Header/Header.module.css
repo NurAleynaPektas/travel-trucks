@@ -1,0 +1,34 @@
+.header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #eaecf0;
+}
+
+.inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.nav {
+  display: flex;
+  gap: 24px;
+}
+
+.link {
+  text-decoration: none;
+  font-size: 14px;
+  color: #475467;
+}
+
+.active {
+  color: #e44848;
+  font-weight: 600;
+}
