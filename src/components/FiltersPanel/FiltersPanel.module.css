@@ -1,9 +1,10 @@
 .panel {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 }
 
+/* Genel blok */
 .block {
   display: flex;
   flex-direction: column;
@@ -11,80 +12,144 @@
 }
 
 .label {
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 600;
   color: #101828;
 }
 
+/* Location input */
 .input {
+  width: 100%;
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid #d0d5dd;
+  background-color: #f9fafb;
   font-size: 14px;
+  outline: none;
 }
 
+.input:focus {
+  border-color: #e44848;
+  background-color: #ffffff;
+}
 
-.types {
+/* Icon sarmalayıcı */
+.iconWrap {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconSvg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Vehicle type alanı */
+.types {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
 .typeBtn {
-  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px 12px;
   border-radius: 12px;
-  border: 1px solid #d0d5dd;
-  background-color: #f9fafb;
-  text-align: left;
+  border: 1px solid #e4e7ec;
+  background-color: #ffffff;
+  cursor: pointer;
   font-size: 14px;
+  color: #101828;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.typeLabel {
+  font-size: 14px;
+}
+
+/* aktif/hover */
+.typeBtn:hover {
+  border-color: #e44848;
 }
 
 .typeBtnActive {
   border-color: #e44848;
-  background-color: #fef2f2;
+  box-shadow: 0 0 0 1px rgba(228, 72, 72, 0.35);
 }
 
-
+/* Equipment grid */
 .equipmentGrid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
 .equipBtn {
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid #d0d5dd;
-  background-color: #f9fafb;
-  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #e4e7ec;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  color: #101828;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.equipLabel {
+  font-size: 14px;
+}
+
+.equipBtn:hover {
+  border-color: #e44848;
 }
 
 .equipBtnActive {
   border-color: #e44848;
-  background-color: #fef2f2;
+  box-shadow: 0 0 0 1px rgba(228, 72, 72, 0.35);
 }
 
-
+/* Search / Reset butonları */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   margin-top: 8px;
 }
 
 .searchBtn {
   flex: 1;
-  padding: 10px 16px;
+  padding: 12px 0;
   border-radius: 999px;
+  border: none;
   background-color: #e44848;
   color: #ffffff;
-  font-size: 14px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .resetBtn {
-  padding: 10px 16px;
+  padding: 12px 20px;
   border-radius: 999px;
-  background-color: #f2f4f7;
+  border: 1px solid #d0d5dd;
+  background-color: #ffffff;
   color: #101828;
-  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Küçük ekranlarda 2 sütuna düş */
+@media (max-width: 900px) {
+  .types,
+  .equipmentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
