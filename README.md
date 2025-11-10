@@ -1,16 +1,128 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# TravelTrucks 
 
-Currently, two official plugins are available:
+**TravelTrucks** is a camper rental catalog built with **React**, **React Router** and **Redux Toolkit**.  
+Users can browse campers, filter them by different criteria, mark favorites and open a detailed page with reviews and a booking form.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Routes:
 
-## React Compiler
+- `/` – Home (hero section with CTA)
+- `/catalog` – Catalog with filters + campers list
+- `/catalog/:id` – Camper details page
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Main Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Home Page
+- Full-width hero with background image (`Picture.png`)
+- Short headline & subtitle
+- **“View Now”** button that navigates to `/catalog`
+
+### Catalog Page
+- Two-column layout:
+  - **Left:** Filters panel
+  - **Right:** Camper cards list
+- Pagination with **“Load more”** button
+- Global loader while fetching campers
+
+### Filters Panel
+- **Location** input (`City, Country`)
+- **Vehicle equipment** multi-select:
+  - AC, Kitchen, Bathroom, TV, Radio, Refrigerator, Microwave, Gas, Water
+- **Vehicle type**:
+  - Van, Fully Integrated, Alcove
+- **Search** button → dispatches `fetchCampers({ page: 1, limit: 4 })`
+- **Reset** button → clears filters + reloads initial campers
+
+### Camper Cards
+- Camper image (with fallback image)
+- Name and formatted price (`€8000.00`)
+- **Favorite** heart button (toggled via Redux)
+- Rating with star icon
+- Location with pin icon
+- Short description (auto-truncated)
+- Tag chips with icons:
+  - `adults`, `transmission`, `engine`
+- **“Show more”** link to `/catalog/:id` (opens in new tab)
+
+### Camper Details Page (`/catalog/:id`)
+- Full camper information (based on selected camper)
+- Components:
+  - `BookingForm` – simple booking request form
+  - `Reviews` – camper reviews section
+- Uses **React Router params** to read camper `id`
+
+### Favorites
+- `favoritesSlice` stores favorite camper IDs
+- Heart icon on each card toggles the camper in/out of favorites
+
+## 🛠 Tech Stack
+
+- **React** (Vite)
+- **React Router v6**
+- **Redux Toolkit**
+  - `campersSlice` – campers list, loading, pagination, hasMore
+  - `filtersSlice` – location, vehicleType, equipment
+  - `favoritesSlice` – favorite camper IDs
+- **Async thunks** for API calls (`fetchCampers`)
+- **CSS Modules** for scoped styling
+- **Inline SVG icons** for:
+  - Filters chips
+  - Camper cards (star, location, adults, transmission, engine, heart)
+
+---
+
+## 📂 Project Structure
+
+```bash
+src/
+  components/
+    BookingForm/
+      BookingForm.jsx
+      BookingForm.module.css
+    CamperCard/
+      CamperCard.jsx
+      CamperCard.module.css
+    FiltersPanel/
+      FiltersPanel.jsx
+      FiltersPanel.module.css
+    Header/
+      Header.jsx
+      Header.module.css
+    Layout/
+      Layout.jsx
+      Layout.module.css
+    Loader/
+      Loader.jsx
+      Loader.module.css
+    Reviews/
+      Reviews.jsx
+      Reviews.module.css
+
+  pages/
+    Home/
+      Home.jsx
+      Home.module.css
+    Catalog/
+      Catalog.jsx
+      Catalog.module.css
+    CamperDetails/
+      CamperDetails.jsx
+      CamperDetails.module.css
+
+  services/
+    campersApi.js        # API helper for fetching campers
+
+  store/
+    campersSlice.js
+    favoritesSlice.js
+    filtersSlice.js
+    store.js             # configureStore
+
+  styles/
+    globals.css
+    App.css
+
+  App.jsx                # Routes configuration
+  main.jsx               # ReactDOM root
