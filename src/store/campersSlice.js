@@ -123,7 +123,6 @@ const campersSlice = createSlice({
 });
 
 export const { clearCurrent } = campersSlice.actions;
-
 export const selectCampers = (state) => state.campers.items;
 export const selectCurrentCamper = (state) => state.campers.current;
 export const selectCampersLoading = (state) => state.campers.isLoading;

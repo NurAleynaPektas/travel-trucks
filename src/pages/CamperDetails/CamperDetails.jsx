@@ -19,8 +19,6 @@ export default function CamperDetails() {
   const camper = useSelector(selectCurrentCamper);
   const isLoading = useSelector(selectCampersLoading);
   const [activeTab, setActiveTab] = useState("features");
-
-  // 🔹 Modal için seçilen resim index'i
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
@@ -113,7 +111,6 @@ export default function CamperDetails() {
     { label: "Consumption", value: consumption },
   ].filter((row) => row.value);
 
-  // 🔹 Modal aç/kapa fonksiyonları
   const openLightbox = (index) => {
     setLightboxIndex(index);
   };
@@ -221,12 +218,12 @@ export default function CamperDetails() {
         </aside>
       </div>
 
-      {/* 🔹 Lightbox / Modal */}
+      {/* Modal */}
       {lightboxIndex !== null && galleryImages[lightboxIndex] && (
         <div className={s.modalBackdrop} onClick={closeLightbox}>
           <div
             className={s.modal}
-            onClick={(e) => e.stopPropagation()} // içe tıklayınca kapanmasın
+            onClick={(e) => e.stopPropagation()} 
           >
             <button
               type="button"

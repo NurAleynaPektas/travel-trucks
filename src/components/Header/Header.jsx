@@ -5,11 +5,16 @@ export default function Header() {
   return (
     <header className={s.header}>
       <div className={s.inner}>
-        <div className={s.logo}>TravelTrucks</div>
+        {/* Logo */}
+        <NavLink to="/" className={s.logo}>
+          TravelTrucks
+        </NavLink>
 
+        {/* Navigation */}
         <nav className={s.nav}>
           <NavLink
             to="/"
+            end
             className={({ isActive }) =>
               isActive ? `${s.link} ${s.active}` : s.link
             }
