@@ -1,39 +1,27 @@
-import { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
 import s from "./BookingForm.module.css";
 
+const BookingSchema = Yup.object({
+  name: Yup.string().required("Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  date: Yup.date().required("Date is required"),
+  comment: Yup.string().max(300, "Comment too long"),
+});
+
 export default function BookingForm({ camperName }) {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    date: "",
-    comment: "",
-  });
-  const [success, setSuccess] = useState(false);
+  const handleSubmit = (values, { resetForm }) => {
+    console.log("Booking submitted:", values);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!form.name || !form.email || !form.date) {
-      return;
-    }
-
-    setSuccess(true);
-
-    setTimeout(() => {
-      setSuccess(false);
-    }, 3000);
-
-    setForm({
-      name: "",
-      email: "",
-      date: "",
-      comment: "",
+    toast.success(`Reservation for ${camperName} sent successfully!`, {
+      theme: "colored",
     });
+
+
+    
+
+    resetForm();
   };
 
   return (
@@ -43,52 +31,53 @@ export default function BookingForm({ camperName }) {
         We will contact you to confirm your reservation for {camperName}.
       </p>
 
-      <form className={s.form} onSubmit={handleSubmit}>
-        <input
-          className={s.input}
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          className={s.input}
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          className={s.input}
-          type="date"
-          name="date"
-          value={form.date}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          className={s.textarea}
-          name="comment"
-          placeholder="Comment"
-          value={form.comment}
-          onChange={handleChange}
-          rows={4}
-        />
-
-        <button type="submit" className={s.submitBtn}>
-          Send
-        </button>
-
-        {success && (
-          <div className={s.success}>
-            Reservation request sent successfully!
+      <Formik
+        initialValues={{ name: "", email: "", date: "", comment: "" }}
+        validationSchema={BookingSchema}
+        onSubmit={handleSubmit}
+      >
+        <Form className={s.form}>
+          <div>
+            <Field
+              className={s.input}
+              type="text"
+              name="name"
+              placeholder="Name"
+            />
+            <ErrorMessage name="name" component="div" className={s.error} />
           </div>
-        )}
-      </form>
+
+          <div>
+            <Field
+              className={s.input}
+              type="email"
+              name="email"
+              placeholder="Email"
+            />
+            <ErrorMessage name="email" component="div" className={s.error} />
+          </div>
+
+          <div>
+            <Field className={s.input} type="date" name="date" />
+            <ErrorMessage name="date" component="div" className={s.error} />
+          </div>
+
+          <div>
+            <Field
+              as="textarea"
+              className={s.textarea}
+              name="comment"
+              placeholder="Comment"
+              rows={4}
+            />
+            <ErrorMessage name="comment" component="div" className={s.error} />
+          </div>
+
+          <button type="submit" className={s.submitBtn}>
+            Send
+          </button>
+        </Form>
+      </Formik>
     </div>
   );
 }
