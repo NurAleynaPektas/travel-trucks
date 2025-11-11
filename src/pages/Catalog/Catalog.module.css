@@ -41,12 +41,14 @@
   font-weight: 600;
   border: 1px solid #d0d5dd;
   cursor: pointer;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .catalogLoadMore:hover {
   background-color: #e4e7ec;
   border-color: #c4c9d5;
+  transform: translateY(-1px);
 }
 
 /* Filtre kutusu */
@@ -58,7 +60,6 @@
   box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 }
 
-/* Eski isimleri kullanan bileşenler varsa diye bırakabilirsin */
 .filtersTitle {
   margin: 0 0 8px;
   font-size: 18px;
@@ -71,10 +72,15 @@
   color: #667085;
 }
 
-/* RESPONSIVE: Mobilde üstte filtreler, altta liste */
+/* 🔹 Tablet ve küçük laptop (max 900px) */
 @media (max-width: 900px) {
+  .catalog {
+    padding: 28px 12px 36px;
+  }
+
   .catalogLayout {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .catalogFilters {
@@ -83,5 +89,38 @@
 
   .catalogList {
     order: 2;
+  }
+}
+
+/* 🔹 Küçük ekran / telefon (max 600px) */
+@media (max-width: 600px) {
+  .catalog {
+    padding: 24px 10px 32px;
+  }
+
+  .catalogTitle {
+    font-size: 24px;
+    text-align: left;
+  }
+
+  .catalogFilters {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .catalogList {
+    gap: 14px;
+  }
+
+  .catalogLoadMore {
+    width: 100%;
+    padding: 12px;
+  }
+}
+
+/* 🔹 Çok büyük ekranlar için hafif merkezleme */
+@media (min-width: 1280px) {
+  .catalogInner {
+    max-width: 1160px;
   }
 }
